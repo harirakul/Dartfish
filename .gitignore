@@ -2,3 +2,4 @@
 bin
 .dart_tool
 pubspec.lock
+.vscode
