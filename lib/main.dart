@@ -1,14 +1,6 @@
-import "package:chess/chess.dart";
+import "engine.dart";
 
 void main() {
-  Chess chess = new Chess();
-  print('position: ' + chess.fen);
-  print(chess.ascii);
-  // var moves = chess.moves();
-  // moves.shuffle();
-  // print(moves);
-  chess.move({"from": 'g2', "to": 'g3'});
-  print(chess.ascii);
-  // print('move: ' + move);
-  // sleep(Duration(seconds: 1));
+  Engine e = new Engine.fromFEN('1rr1k3/4p1b1/6Q1/q2Pp3/4P3/2p2PN1/P3N1K1/R6R b - - 0 31');
+  print(e.eval());
 }

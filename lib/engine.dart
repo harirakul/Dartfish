@@ -15,12 +15,15 @@ class Engine extends Chess {
   Engine.fromFEN(String fen) : super.fromFEN(fen);
 
   double eval() {
+    
     // Basic Material Evaluation
+    
     double score = 0;
     for (int i = 0; i < board.length; i++) {
       if (board[i] is Piece) {
         score += material_values[board[i].type.toString()] *
-            turns[board[i].color.toString()];
+            turns[board[i].color.toString()] *
+            turns[turn.toString()];
       }
     }
     return score;
