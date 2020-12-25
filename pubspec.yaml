@@ -1,0 +1,4 @@
+name: dartfish
+
+dependencies:
+  chess: ^0.6.5
