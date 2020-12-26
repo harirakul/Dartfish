@@ -83,9 +83,31 @@ class Engine extends Chess {
     return bestMove;
   }
 
-  List play() {
+  String play() {
     List best = minimax(fen, 2, true);
     move(best[1]);
-    return best;
+    var lastMove = getHistory({"verbose": true}).last;
+    String lanstr = lastMove['from'] + lastMove['to'];
+    if (lastMove['flags'].contains('p')) {
+      String san = lastMove['san'].toString().toLowerCase();
+      lanstr += san.substring(san.length - 1);
+    }
+    return lanstr;
+  }
+
+  bool moveLAN(String lanstr) {
+    if (lanstr == "e1g1" && get('e1').type == 'k') {
+      return move("O-O");
+    }
+
+    if (lanstr == "e1c1" && get('e1').type == 'k') {
+      return move("O-O-O");
+    }
+
+    var coords = {'from': lanstr.substring(0, 2), 'to': lanstr.substring(2, 4)};
+    if (lanstr.length > 4) {
+      coords['promotion'] = lanstr[4].toLowerCase();
+    }
+    return move(coords);
   }
 }
