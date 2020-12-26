@@ -54,24 +54,23 @@ class Engine extends Chess {
             turns[turn.toString()];
       }
     }
-    return score;
-  }
-
-  String compute() {
-    String bestMove = null;
-    double bestScore = -inf;
-    var legals = moves();
-    print(legals);
-
-    for (int i = 0; i < legals.length; i++) {
-      move(legals[i]);
-      if (-eval() > bestScore) {
-        bestScore = -eval();
-        bestMove = legals[i];
+    for (String a in rows.keys.toList()) {
+      for (int i = 1; i < 9; i++) {
+        String square = a + i.toString();
+        if (get(square) is Piece) {
+          if (turns[turn.toString()] == 1) { //White's turn
+            score += (PieceSquareTables[get(square).type.toString()]
+                     [squarenum(square)])*turns[get(square).color.toString()];
+          }
+          else { // Black's turn
+            score += (PieceSquareTables[get(square).type.toString()]
+                     [63 - squarenum(square)])*turns[get(square).color.toString()] * -1;
+          }
+        }
       }
-      undo_move();
     }
-    return bestMove;
+
+    return score;
   }
 
   String play() {
@@ -100,5 +99,10 @@ class Engine extends Chess {
       coords['promotion'] = lanstr[4].toLowerCase();
     }
     return move(coords);
+  }
+
+  int squarenum(String square) {
+    int multiplier = int.parse(square.substring(square.length - 1)) - 1;
+    return 8 * multiplier + rows[square.substring(0, 1)];
   }
 }
