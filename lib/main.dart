@@ -17,14 +17,32 @@ void run() {
       }
     } else if (cmd.startsWith("go")) {
       print("bestmove " + bot.play());
-    } else if (cmd.startsWith("position")) {
-      List info = cmd.split(" ");
-      if (info[1] != 'startpos') {
-        bot.update_setup(info[1]);
-      }
-      if (info.length > 3) {
-        for (int i = 3; i < info.length; i++) {
-          bot.moveLAN(info[i]);
+    }
+    if (cmd.startsWith("position")) {
+      if (cmd.contains('/')) {
+        if (cmd.contains('moves')) {
+          const start = "position ";
+          const end = " moves";
+          int startIndex = cmd.indexOf(start);
+          int endIndex = cmd.indexOf(end, startIndex + start.length);
+          bot =
+              Engine.fromFEN(cmd.substring(startIndex + cmd.length, endIndex));
+          List moves = cmd.substring(cmd.indexOf(end) + end.length).split(" ");
+          for (String move in moves) {
+            bot.moveLAN(move);
+          }
+        } else {
+          bot = Engine.fromFEN(cmd.substring(9));
+        }
+      } else {
+        List info = cmd.split(" ");
+        if (info[1] == 'startpos') {
+          bot = Engine();
+        }
+        if (info.length > 3) {
+          for (int i = 3; i < info.length; i++) {
+            bot.moveLAN(info[i]);
+          }
         }
       }
     }
