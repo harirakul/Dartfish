@@ -1,6 +1,8 @@
 # Dartfish
 
+<center>
 <img src="https://i.imgur.com/6002Lu3.png" width="300">
+</center>
 
 A chess engine written in Dart.
 
