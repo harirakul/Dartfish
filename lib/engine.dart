@@ -41,8 +41,16 @@ class Engine extends Chess {
   Engine.fromFEN(String fen) : super.fromFEN(fen);
 
   double eval() {
-    if (in_stalemate || insufficient_material || in_threefold_repetition) {
+    if (insufficient_material) {
       return 0;
+    }
+
+    if (in_stalemate  || in_threefold_repetition) {
+      return -500;
+    }
+
+    if (in_checkmate) {
+      return 9999999;
     }
 
     // Basic Material Evaluation
@@ -58,13 +66,17 @@ class Engine extends Chess {
       for (int i = 1; i < 9; i++) {
         String square = a + i.toString();
         if (get(square) is Piece) {
-          if (turns[turn.toString()] == 1) { //White's turn
+          if (turns[turn.toString()] == 1) {
+            //White's turn
             score += (PieceSquareTables[get(square).type.toString()]
-                     [squarenum(square)])*turns[get(square).color.toString()];
-          }
-          else { // Black's turn
+                    [squarenum(square)]) *
+                turns[get(square).color.toString()];
+          } else {
+            // Black's turn
             score += (PieceSquareTables[get(square).type.toString()]
-                     [63 - squarenum(square)])*turns[get(square).color.toString()] * -1;
+                    [63 - squarenum(square)]) *
+                turns[get(square).color.toString()] *
+                -1;
           }
         }
       }
