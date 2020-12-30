@@ -45,7 +45,7 @@ class Engine extends Chess {
       return 0;
     }
 
-    if (in_stalemate  || in_threefold_repetition) {
+    if (in_stalemate || in_threefold_repetition) {
       return -500;
     }
 
